@@ -17,7 +17,7 @@ public class UserDAO {
 
     public User checkCredentials(String username, String password) throws SQLException {
         String hashedPassword = DigestUtils.sha512Hex(password);
-        String query = "SELECT  id, username, name, surname FROM user  WHERE username = ? AND password =?";
+        String query = "SELECT id, username, email FROM user  WHERE username = ? AND password =?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, hashedPassword);
@@ -30,6 +30,7 @@ public class UserDAO {
                     user.setId(result.getInt("id"));
                     user.setUsername(result.getString("username"));
                     user.setEmail(result.getString("email"));
+                    System.out.println("User found: " + user.getUsername());
                     return user;
                 }
             }

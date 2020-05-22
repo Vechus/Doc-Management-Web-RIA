@@ -26,8 +26,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="Tomcat 9.0.31" level="application_server_libraries" />
-    <orderEntry type="library" name="mysql-connector-java-8.0.19" level="project" />
-    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.11" level="project" />
+    <orderEntry type="library" exported="" scope="PROVIDED" name="Tomcat 9.0.31" level="application_server_libraries" />
+    <orderEntry type="library" exported="" name="mysql-connector-java-8.0.19" level="project" />
+    <orderEntry type="library" exported="" name="Maven: commons-codec:commons-codec:1.11" level="project" />
+    <orderEntry type="library" exported="" name="crypto-js" level="application" />
+    <orderEntry type="library" exported="" name="com.google.code.gson:gson:2.8.6" level="project" />
   </component>
 </module>

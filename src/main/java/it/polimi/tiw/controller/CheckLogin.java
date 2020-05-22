@@ -1,9 +1,11 @@
 package it.polimi.tiw.controller;
 
+import com.google.gson.Gson;
 import it.polimi.tiw.beans.User;
 import it.polimi.tiw.dao.UserDAO;
 import it.polimi.tiw.util.ConnectionHandler;
 import it.polimi.tiw.util.Initialization;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -29,10 +31,17 @@ public class CheckLogin extends HttpServlet {
         String username;
         String password;
         username = req.getParameter("username");
-        password = req.getParameter("password");
+        password = req.getParameter("passwordHash");
+        System.out.println("Received POST: username " + username + " with password MD5: " + password);
+        System.out.println("SHA512: " + DigestUtils.sha512Hex(password));
         if(username == null || password == null || username.isEmpty() || password.isEmpty()) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resp.getWriter().println("Credentials must not be null");
+            return;
+        }
+        if(!isValidMD5(password)) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            resp.getWriter().println("Client JavaScript error.");
             return;
         }
         UserDAO userDAO = new UserDAO(connection);
@@ -49,11 +58,12 @@ public class CheckLogin extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             resp.getWriter().println("username/password incorrect");
         } else {
+            String json = new Gson().toJson(username);
             req.getSession().setAttribute("user", user);
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
-            resp.getWriter().println(username);
+            resp.getWriter().write(json);
         }
     }
 
@@ -64,5 +74,9 @@ public class CheckLogin extends HttpServlet {
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         }
+    }
+
+    private boolean isValidMD5(String s) {
+        return s.matches("^[a-fA-F0-9]{32}$");
     }
 }
