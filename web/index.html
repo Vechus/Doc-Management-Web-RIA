@@ -6,7 +6,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
     <script src="js/utils.js" charset="UTF-8" defer></script>
     <script src="js/loginManager.js" charset="UTF-8" defer></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/login_page_style.css">
 </head>
+
 <body>
 <h1>Welcome to document manager.</h1>
 <fieldset>
@@ -16,22 +24,82 @@
         <input type="text" name="username" id="username">
         <label for="password">Password:</label>
         <input type="password" name="password" id="password" required>
-        <input id="loginbutton" type="submit" value="login" required>
+        <input class="btn btn-primary" id="loginbutton" type="submit" value="login" required>
         <p id="errormessage"></p>
 </form>
 </fieldset>
 
-<!--
-<form onsubmit="(console.log('lul'))">
-    <label for="username">Login:</label>
-    <input type="text" name="username" id="username2">
-    <label for="password">Password:</label>
-    <input type="text" name="password" id="password2">
-    <div id="loginLower">
-        <input type="submit" value="Login">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerModal">
+    Sign up
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Sign up</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Please fill in this form to create an account.</p>
+                <hr>
+                <form id="registerForm" action="Register" method="post">
+                    <label for="register-email"><b>Enter your email</b></label>
+                    <input class="form-control" type="email" placeholder="email" name="register-email" id="register-email" required>
+                    <small id="emailHelp" class="form-text text-muted"></small>
+                    <hr>
+                    <label for="register-username"><b>Enter your username</b></label>
+                    <input class="form-control" type="text" placeholder="username" name="register-username" id="register-username" required>
+                    <small id="usernameHelp" class="form-text text-muted"></small>
+                    <hr>
+                    <label for="register-psw"><b>Choose a secure password</b></label>
+                    <input class="form-control" type="password" placeholder="Password" name="register-psw" id="register-psw" required>
+                    <small id="passwordHelp" class="form-text text-muted">Remember to choose a secure password.</small>
+                    <hr>
+                    <label for="register-psw-repeat"><b>Repeat Password</b></label>
+                    <input class="form-control" type="password" placeholder="Repeat Password" name="register-psw-repeat" id="register-psw-repeat" required>
+                    <small id="passwordRepeatHelp" class="form-text text-muted"></small>
+                </form>
+                <hr>
+
+                <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Sign up now</button>
+            </div>
+        </div>
     </div>
-    <p id="errormessage9"></p>
-    </form>
-    -->
+</div>
+
+<script>
+    // Get the modal
+    let modal = document.getElementById('registerModal');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+<script>
+    let passwordRepeatInput = document.getElementById('register-psw-repeat');
+    passwordRepeatInput.addEventListener('change', function(){
+        let passwordInput = document.getElementById('register-psw').value;
+        let passwordRepeatHelp = document.getElementById('passwordRepeatHelp');
+
+        if(passwordRepeatInput.value !== passwordInput) {
+            passwordRepeatHelp.innerHTML = 'Password and Confirm Password do not match.';
+        } else {
+            passwordRepeatHelp.innerHTML = '';
+        }
+    });
+</script>
 </body>
 </html>
