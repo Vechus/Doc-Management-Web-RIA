@@ -30,6 +30,9 @@ public class FolderDAO {
                     subfolder.setFolderId(resultSet.getInt(2));
                     subfolder.setName(resultSet.getString(3));
                     subfolder.setCreationDate(resultSet.getDate(4));
+
+                    SubfolderDAO subfolderDAO = new SubfolderDAO(connection, subfolder.getId());
+                    subfolder.setDocuments(subfolderDAO.findDocuments());
                     subfolders.add(subfolder);
                 }
             }

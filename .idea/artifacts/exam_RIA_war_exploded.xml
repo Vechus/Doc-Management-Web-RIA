@@ -6,9 +6,12 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="exam-RIA" />
+          <element id="library" level="application" name="crypto-js" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="mysql-connector-java-8.0.19" />
+          <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.11" />
+          <element id="library" level="project" name="com.google.code.gson:gson:2.8.6" />
         </element>
       </element>
     </root>

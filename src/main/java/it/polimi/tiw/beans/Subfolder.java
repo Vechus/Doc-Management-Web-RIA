@@ -1,12 +1,14 @@
 package it.polimi.tiw.beans;
 
 import java.sql.Date;
+import java.util.List;
 
 public class Subfolder {
     private int id;
     private int folderId;
     private String name;
     private Date creationDate;
+    private List<Document> documents;
 
     public int getId() {
         return id;
@@ -38,5 +40,13 @@ public class Subfolder {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public List<Document> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(List<Document> documents) {
+        this.documents = documents;
     }
 }

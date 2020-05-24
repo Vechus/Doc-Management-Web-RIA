@@ -1,0 +1,49 @@
+.folder {
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.subfolder {
+    font-size: 16px;
+}
+
+.document {
+    font-size: 14px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+small {
+    margin-left: 20px;
+}
+
+li {
+    padding-bottom: 10px;
+    padding-left: 20px;
+}
+
+i.fa {
+    font-family: "FontAwesome", monospace;
+    font-size: 30px;
+}
+
+i.fa.trashy {
+    font-size: 75px;
+}
+
+.subfolder.selected:nth-of-type(n) {
+    background-color: royalblue;
+}
+
+.home-link {
+    text-align: right !important;
+    font-size: 50px !important;
+    font-style: normal !important;
+    padding: 20px;
+}
+
+.normalize {
+    font-style: normal;
+}

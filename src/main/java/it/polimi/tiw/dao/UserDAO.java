@@ -36,4 +36,46 @@ public class UserDAO {
             }
         }
     }
+
+    /**
+     * Checks if username already exists
+     * @param username
+     * @return true if username does not exists, false if it does exist.
+     */
+    public boolean checkUsername(String username) throws SQLException {
+        String query = "SELECT * FROM user WHERE username = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, username);
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                return !resultSet.isBeforeFirst();
+            }
+        }
+    }
+
+    /**
+     * Checks if email alreadi exists
+     * @param email
+     * @return true if email does not exists, false if it does exist.
+     * @throws SQLException
+     */
+    public boolean checkEmail(String email) throws SQLException {
+        String query = "SELECT * FROM user WHERE email = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, email);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                return !resultSet.isBeforeFirst();
+            }
+        }
+    }
+
+    public void registerUser(String email, String username, String password) throws SQLException {
+        String hashedPassword = DigestUtils.sha512Hex(password);
+        String query = "INSERT INTO user (email, username, password) VALUES (?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, username);
+            preparedStatement.setString(3, hashedPassword);
+            preparedStatement.executeUpdate();
+        }
+    }
 }
