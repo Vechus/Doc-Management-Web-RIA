@@ -55,4 +55,13 @@ public class SubfolderDAO {
         }
         return subfolder;
     }
+
+    public void moveSubfolder(int folderId) throws SQLException {
+        String query = "UPDATE subfolder SET folder_id = ? WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, folderId);
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+        }
+    }
 }
