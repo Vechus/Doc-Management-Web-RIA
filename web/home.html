@@ -16,18 +16,24 @@
 <body>
 <div class="container borderless">
     <div class="row">
-        <div class="col-sm-11">
+        <div class="col-sm-10">
             <h1>Document management home</h1>
         </div>
-        <div class="col-sm-1">
-            Welcome, <span id="pm_username"></span>
+        <div class="col-sm-2 font-weight-bold">
+            <span id="welcome-message"></span>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-10"><h3 class="danger" id="error-message"></h3></div>
+        <div class="col-sm-8"><h3 class="danger" id="error-message"></h3></div>
         <div class="col-sm-2" id="wastebin">
             <i class="fa fa-trash trashy" aria-hidden="true"></i>
             <p>Wastebin</p>
+        </div>
+        <div class="col-sm-2" id="signout" href="#">
+            <button class="btn btn-primary" onclick="handleLogout()">
+                <i href="#" class="fa fa-sign-out" aria-hidden="true"></i>
+                <p href="#">Sign out</p>
+            </button>
         </div>
     </div>
 </div>

@@ -26,4 +26,17 @@
         <welcome-file>/index.html</welcome-file>
     </welcome-file-list>
 
+    <filter>
+        <filter-name>LoggedIn</filter-name>
+        <filter-class>it.polimi.tiw.filter.LoggedChecker</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoggedIn</filter-name>
+        <url-pattern>/deleteEntity</url-pattern>
+        <url-pattern>/GetDocumentData</url-pattern>
+        <url-pattern>/GetFolders</url-pattern>
+        <url-pattern>/MoveDocument</url-pattern>
+        <url-pattern>/MoveSubfolder</url-pattern>
+    </filter-mapping>
+
 </web-app>

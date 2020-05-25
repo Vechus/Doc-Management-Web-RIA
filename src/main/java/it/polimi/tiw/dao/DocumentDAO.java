@@ -58,4 +58,12 @@ public class DocumentDAO {
         }
         return documentData;
     }
+
+    public void deleteDocument() throws SQLException {
+        String query = "DELETE FROM document WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        }
+    }
 }

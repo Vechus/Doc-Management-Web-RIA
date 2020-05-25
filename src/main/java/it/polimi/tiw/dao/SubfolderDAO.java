@@ -64,4 +64,12 @@ public class SubfolderDAO {
             preparedStatement.executeUpdate();
         }
     }
+
+    public void deleteSubfolder() throws SQLException {
+        String query = "DELETE FROM subfolder WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        }
+    }
 }

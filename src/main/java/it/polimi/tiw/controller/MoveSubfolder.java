@@ -3,6 +3,7 @@ package it.polimi.tiw.controller;
 import com.google.gson.Gson;
 import it.polimi.tiw.beans.MoveDataBean;
 import it.polimi.tiw.dao.DocumentDAO;
+import it.polimi.tiw.dao.SubfolderDAO;
 import it.polimi.tiw.util.ConnectionHandler;
 import it.polimi.tiw.util.Initialization;
 
@@ -15,8 +16,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet("/MoveDocument")
-public class MoveDocument extends HttpServlet {
+@WebServlet("/MoveSubfolder")
+public class MoveSubfolder extends HttpServlet {
     private static Connection connection = null;
 
     @Override
@@ -31,6 +32,7 @@ public class MoveDocument extends HttpServlet {
         try {
             moveDataBean = new Gson().fromJson(req.getReader().readLine(), MoveDataBean.class);
         } catch (Exception e) {
+            e.printStackTrace();
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resp.getWriter().println("Malformed request.");
             return;
@@ -41,28 +43,28 @@ public class MoveDocument extends HttpServlet {
             resp.getWriter().println("Parameters missing or bad values.");
             return;
         }
-        DocumentDAO documentDAO = new DocumentDAO(connection, moveDataBean.getEntity_id());
+        SubfolderDAO subfolderDAO = new SubfolderDAO(connection, moveDataBean.getEntity_id());
         try {
-            if(documentDAO.findDocument() != null) {
+            if(subfolderDAO.findSubfolder() != null) {
                 try {
-                    documentDAO.moveDocument(moveDataBean.getTo());
+                    subfolderDAO.moveSubfolder(moveDataBean.getTo());
                 } catch (SQLException e) {
                     resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                    resp.getWriter().println("Unable to move document.");
+                    resp.getWriter().println("Unable to move subfolder.");
                     return;
                 }
             } else {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                resp.getWriter().println("Document does not exist.");
+                resp.getWriter().println("Subfolder does not exist.");
                 return;
             }
         } catch (SQLException e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            resp.getWriter().println("Unable to get document.");
+            resp.getWriter().println("Unable to get subfolder.");
             return;
         }
         resp.setStatus(HttpServletResponse.SC_OK);
-        resp.getWriter().println("Document move successful.");
+        resp.getWriter().println("Subfolder move successful.");
     }
 
     @Override

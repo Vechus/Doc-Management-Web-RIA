@@ -62,7 +62,7 @@ public class CheckLogin extends HttpServlet {
             resp.getWriter().println("username/password incorrect");
         } else {
             String json = new Gson().toJson(userLoginData.getUsername());
-            req.getSession().setAttribute("user", user);
+            req.getSession().setAttribute("username", user);
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
