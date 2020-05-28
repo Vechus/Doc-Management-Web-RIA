@@ -172,5 +172,5 @@ $(document).ready(function(){
 
 function handleLogout() {
     sessionStorage.clear();
-    window.location.href = '/index.html';
+    window.location.href = '/Logout';
 }
