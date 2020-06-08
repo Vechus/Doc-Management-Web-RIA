@@ -15,22 +15,26 @@
 </head>
 
 <body>
-<h1>Welcome to document manager.</h1>
 <fieldset>
-<form action="CheckLogin" id="loginForm" method="post">
-        <label for="username">Login:</label>
-        <input type="text" name="username" id="username">
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required>
-        <input class="btn btn-primary" id="loginbutton" type="submit" value="login" required>
-        <p id="errormessage"></p>
+<form class="form-signin" action="CheckLogin" id="loginForm" method="post">
+    <h1 class="h1 mb-1 font-weight-normal">Welcome to document manager.</h1>
+    <hr>
+    <h3 class="h3 mb-3 font-weight-normal">Please login or sign up</h3>
+    <label for="username" class="sr-only">Username</label>
+    <input type="text" name="username" id="username" class="form-control" placeholder="Username" required>
+    <label for="password" class="sr-only">Password</label>
+    <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+    <input class="btn btn-lg btn-primary btn-block" id="loginbutton" type="submit" value="login">
+    <p id="errormessage"></p>
+    <hr>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#registerModal">
+        Sign up
+    </button>
+    <p class="mt-5 mb-3 text-muted">© Luca Vecchio 2019-2020</p>
 </form>
 </fieldset>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerModal">
-    Sign up
-</button>
 
 <!-- Modal -->
 <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
