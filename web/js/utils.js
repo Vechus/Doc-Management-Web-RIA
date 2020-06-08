@@ -10,7 +10,7 @@
         req.send(formData);
     }
 }*/
-
+/*
 function makeCall(method, url, data, callback, errorFunction = function(resp) {console.log(resp)}) {
         alert("4");
         $.ajax({
@@ -21,4 +21,4 @@ function makeCall(method, url, data, callback, errorFunction = function(resp) {c
             error: errorFunction,
             dataType: "json"
             });
-}
+}*/

@@ -1,12 +1,13 @@
+// this function is executed when document is ready and makes variables not end in public scope
 $(document).ready(function() {
     $("#loginbutton").on("click", function(e) {
         e.preventDefault();
         let form = document.getElementById("loginForm");
         if (form.checkValidity()) {
             let username = document.getElementById("username").value;
+            // MD5 digest the password for safer communication between server and client
             let hashedPassword = CryptoJS.MD5(document.getElementById("password").value).toString();
             let formData = {username: username, passwordHash: hashedPassword};
-            console.log("send formData");
             $.ajax({
                 type: "POST",
                 url: 'CheckLogin',
