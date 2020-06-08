@@ -8,13 +8,27 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDAO {
-    private Connection connection;
 
+public class UserDAO {
+    private final Connection connection;
+
+    /**
+     * Instantiates a new User DAO.
+     *
+     * @param connection the connection object
+     */
     public UserDAO(Connection connection) {
         this.connection = connection;
     }
 
+    /**
+     * Check user credentials.
+     *
+     * @param username the username
+     * @param password the password
+     * @return the user
+     * @throws SQLException if any error occurs
+     */
     public User checkCredentials(String username, String password) throws SQLException {
         String hashedPassword = DigestUtils.sha512Hex(password);
         String query = "SELECT id, username, email FROM user  WHERE username = ? AND password =?";
@@ -39,8 +53,10 @@ public class UserDAO {
 
     /**
      * Checks if username already exists
-     * @param username
+     *
+     * @param username the username
      * @return true if username does not exists, false if it does exist.
+     * @throws SQLException if any error occurs
      */
     public boolean checkUsername(String username) throws SQLException {
         String query = "SELECT * FROM user WHERE username = ?";
@@ -53,10 +69,11 @@ public class UserDAO {
     }
 
     /**
-     * Checks if email alreadi exists
-     * @param email
+     * Checks if email already exists
+     *
+     * @param email the email
      * @return true if email does not exists, false if it does exist.
-     * @throws SQLException
+     * @throws SQLException the sql exception
      */
     public boolean checkEmail(String email) throws SQLException {
         String query = "SELECT * FROM user WHERE email = ?";
@@ -68,6 +85,14 @@ public class UserDAO {
         }
     }
 
+    /**
+     * Register user.
+     *
+     * @param email    the email
+     * @param username the username
+     * @param password the password
+     * @throws SQLException if any error occurs
+     */
     public void registerUser(String email, String username, String password) throws SQLException {
         String hashedPassword = DigestUtils.sha512Hex(password);
         String query = "INSERT INTO user (email, username, password) VALUES (?, ?, ?)";

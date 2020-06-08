@@ -9,13 +9,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class HomeDAO {
     private final Connection connection;
 
+    /**
+     * Instantiates a new Home DAO.
+     *
+     * @param connection the connection object
+     */
     public HomeDAO(Connection connection) {
         this.connection = connection;
     }
 
+    /**
+     * Find all folders.
+     *
+     * @return the list of folders
+     * @throws SQLException the sql exception
+     */
     public List<Folder> findFolders() throws SQLException {
         List<Folder> folders = new ArrayList<>();
         String query = "SELECT * FROM folder ORDER BY name ASC";

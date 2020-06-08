@@ -13,11 +13,23 @@ public class FolderDAO {
     private final Connection connection;
     private final int id;
 
+    /**
+     * Instantiates a new Folder DAO.
+     *
+     * @param connection the connection object.
+     * @param id         the id
+     */
     public FolderDAO(Connection connection, int id) {
         this.connection = connection;
         this.id = id;
     }
 
+    /**
+     * Find subfolders list relative to this folder.
+     *
+     * @return the list of subfolders contained in this folder
+     * @throws SQLException if any error occurs
+     */
     public List<Subfolder> findSubfolders() throws SQLException {
         List<Subfolder> subfolders = new ArrayList<>();
         String query = "SELECT * FROM subfolder WHERE folder_id= ? ORDER BY name ASC";

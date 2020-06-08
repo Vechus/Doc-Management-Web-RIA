@@ -162,8 +162,6 @@ $(document).ready(function(){
                         errorMsg.textContent = response.responseText;
                     }
                 })
-            } else {
-
             }
         }
     }, false);

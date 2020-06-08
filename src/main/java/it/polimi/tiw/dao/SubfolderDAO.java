@@ -11,15 +11,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class SubfolderDAO {
     private final Connection connection;
     private final int id;
 
+    /**
+     * Instantiates a new Subfolder DAO.
+     *
+     * @param connection the connection
+     * @param id         the id
+     */
     public SubfolderDAO(Connection connection, int id) {
         this.connection = connection;
         this.id = id;
     }
 
+    /**
+     * Find documents relative to this subfolder.
+     *
+     * @return the list of documents contained in this subfolder
+     * @throws SQLException if any error occurs
+     */
     public List<Document> findDocuments() throws SQLException {
         List<Document> documents = new ArrayList<>();
         String query = "SELECT id, subfolder_id, name, creation_date, summary FROM document WHERE subfolder_id= ? ORDER BY name ASC";
@@ -40,6 +53,12 @@ public class SubfolderDAO {
         return documents;
     }
 
+    /**
+     * Find subfolder.
+     *
+     * @return the subfolder
+     * @throws SQLException if any error occurs
+     */
     public Subfolder findSubfolder() throws SQLException {
         Subfolder subfolder = new Subfolder();
         String query = "SELECT * FROM subfolder WHERE id= ?";
@@ -56,6 +75,12 @@ public class SubfolderDAO {
         return subfolder;
     }
 
+    /**
+     * Move subfolder to a folder.
+     *
+     * @param folderId the folder id
+     * @throws SQLException if any error occurs
+     */
     public void moveSubfolder(int folderId) throws SQLException {
         String query = "UPDATE subfolder SET folder_id = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -65,6 +90,11 @@ public class SubfolderDAO {
         }
     }
 
+    /**
+     * Delete subfolder.
+     *
+     * @throws SQLException if any error occurs
+     */
     public void deleteSubfolder() throws SQLException {
         String query = "DELETE FROM subfolder WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {

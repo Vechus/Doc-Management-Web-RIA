@@ -8,15 +8,28 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class DocumentDAO {
     private final Connection connection;
     private final int id;
 
+    /**
+     * Instantiates a new Document DAO.
+     *
+     * @param connection the connection object.
+     * @param id         the document's id
+     */
     public DocumentDAO(Connection connection, int id) {
         this.connection = connection;
         this.id = id;
     }
 
+    /**
+     * Move document.
+     *
+     * @param subfolderId the subfolder id to move the document into
+     * @throws SQLException if any error occurs
+     */
     public void moveDocument(int subfolderId) throws SQLException {
         String query = "UPDATE document SET subfolder_id= ? WHERE id= ?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -26,6 +39,12 @@ public class DocumentDAO {
         }
     }
 
+    /**
+     * Find document document.
+     *
+     * @return the document found
+     * @throws SQLException if any error occurs
+     */
     public Document findDocument() throws SQLException {
         Document document = new Document();
         String query = "SELECT * FROM document WHERE id= ?";
@@ -43,6 +62,12 @@ public class DocumentDAO {
         return document;
     }
 
+    /**
+     * Gets document content.
+     *
+     * @return the document's content
+     * @throws SQLException if any error occurs
+     */
     public DocumentData getData() throws SQLException {
         DocumentData documentData = new DocumentData();
         String query = "SELECT name, summary, data FROM document WHERE id= ?";
@@ -59,6 +84,11 @@ public class DocumentDAO {
         return documentData;
     }
 
+    /**
+     * Delete the document.
+     *
+     * @throws SQLException if any error occurs
+     */
     public void deleteDocument() throws SQLException {
         String query = "DELETE FROM document WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
