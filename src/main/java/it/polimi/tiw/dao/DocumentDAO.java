@@ -47,7 +47,8 @@ public class DocumentDAO {
      */
     public Document findDocument() throws SQLException {
         Document document = new Document();
-        String query = "SELECT * FROM document WHERE id= ?";
+        // note: query does not return data
+        String query = "SELECT id, subfolder_id, name, creation_date, summary FROM document WHERE id= ?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
             try(ResultSet resultSet = preparedStatement.executeQuery()) {
