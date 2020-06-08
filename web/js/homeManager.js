@@ -1,42 +1,118 @@
+// this function is executed when document is ready and makes variables not end in public scope
 $(document).ready(function(){
+    // first of all get the page content from server
     $.ajax({
         type: "GET",
         url: 'GetFolders',
         success: function(response) {
-            console.log(response.responseText);
+            // this function is run when server responds with a success code
             response.forEach(function(item, value) {
-                console.log(item + "    " + value);
-                let folderListObject = `<li id="folder${item.id}" data-itemid="${item.id}" class="folder"> ${(item.subfolders.length === 0 ? '<i class="fa fa-folder" aria-hidden="true"></i> ' : '<i class="fa fa-folder-open" aria-hidden="true"></i> ')}${item.name}<small> ${item.creationDate} </small>`;
-                folderListObject += '<ul>';
+                // the server responds with a List of folders, so iterate through it.
+                // First, create a folder element, and add the corresponding icon, name and creation date
+                let folderListElement = document.createElement("li");
+                folderListElement.id = item.id;
+                folderListElement.dataset.itemid = item.id;
+                folderListElement.className = "folder";
+
+                let iconImage = document.createElement("i");
+                iconImage.setAttribute("aria-hidden", 'true');
+
+                if(item.subfolders.length === 0)
+                    iconImage.className = "fa fa-folder";
+                else
+                    iconImage.className = "fa fa-folder-open";
+
+                let smallDateObject = document.createElement("small");
+                smallDateObject.innerText = item.creationDate;
+
+                folderListElement.appendChild(iconImage);
+                folderListElement.appendChild(document.createTextNode(item.name));
+                folderListElement.appendChild(smallDateObject);
+
+                // now create a subfolder list container, in which we store its elements
+                let subfolderListContainer = document.createElement("ul");
                 if(item.subfolders.length > 0) {
                     item.subfolders.forEach(function (item1, value1) {
-                        folderListObject += `<li id="subfolder${item1.id}" data-name="${item1.name}" data-itemid="${item1.id}" draggable="true" class="subfolder"> ${(item1.documents.length === 0 ? '<i class="fa fa-folder-o" aria-hidden="true"></i>' : '<i class="fa fa-folder-open-o" aria-hidden="true"></i>')} ${item1.name} <small> ${item1.creationDate} </small> <i class="fa fa-arrows" aria-hidden="true"></i>`;
-                        folderListObject += '<ul>';
+                        // create the subfolder list element, and add the corresponding icon, name and creation date
+                        let subfolderListElement = document.createElement("li");
+                        subfolderListElement.id = item1.id;
+                        subfolderListElement.dataset.name = item1.name;
+                        subfolderListElement.dataset.itemid = item1.id;
+                        subfolderListElement.setAttribute("draggable", 'true');
+                        subfolderListElement.className = "subfolder";
+
+                        let subIconImage = document.createElement("i");
+                        subIconImage.setAttribute("aria-hidden", 'true');
+
+                        if(item1.documents.length === 0)
+                            subIconImage.className = "fa fa-folder-o";
+                        else
+                            subIconImage.className = "fa fa-folder-open-o";
+
+                        let smallSubDateObject = document.createElement("small");
+                        smallSubDateObject.innerText = item1.creationDate;
+
+                        let subfolderMoveImage = document.createElement("i");
+                        subfolderMoveImage.className = "fa fa-arrows";
+                        subfolderMoveImage.setAttribute("aria-hidden", 'true');
+                        subfolderListElement.appendChild(subIconImage);
+                        subfolderListElement.appendChild(document.createTextNode(item1.name));
+                        subfolderListElement.appendChild(smallSubDateObject);
+                        subfolderListElement.appendChild(subfolderMoveImage);
+                        subfolderListContainer.appendChild(subfolderListElement);
+
+                        // create a document list container
+                        let documentListContainer = document.createElement("ul");
                         if(item1.documents.length > 0) {
-
                             item1.documents.forEach(function (item2, value2) {
-                                folderListObject += `<li id="document${item2.id}" data-name="${item2.name}" draggable="true" data-itemid="${item2.id}" data-toggle="tooltip" title="${item2.summary}" class="document"><i class="fa fa-file-text" aria-hidden="true"></i>${item2.name} <small>${item2.creationDate}</small> <i class="fa fa-arrows" aria-hidden="true"></i></li>`;
-                            })
+                                // create an element, and add icon, name, summary and creation date
+                                let documentListElement = document.createElement("li");
+                                documentListElement.id = `document${item2.id}`;
+                                documentListElement.dataset.name = item2.name;
+                                documentListElement.setAttribute("draggable", 'true');
+                                documentListElement.dataset.itemid = item2.id;
+                                documentListElement.dataset.toggle = "tooltip";
+                                documentListElement.title = item2.summary;
+                                documentListElement.className = "document";
 
+                                let docImageIcon = document.createElement("i");
+                                docImageIcon.className = "fa fa-file-text";
+                                docImageIcon.setAttribute("aria-hidden", 'true');
+
+                                let smallDocDate = document.createElement("small");
+                                smallDocDate.innerText = item2.creationDate;
+
+                                let docMoveImage = document.createElement("i");
+                                docMoveImage.className = "fa fa-arrows";
+                                docMoveImage.setAttribute("aria-hidden", 'true');
+
+                                documentListElement.appendChild(docImageIcon);
+                                documentListElement.appendChild(document.createTextNode(item2.name));
+                                documentListElement.appendChild(smallDocDate);
+                                documentListElement.appendChild(docMoveImage);
+
+                                documentListContainer.appendChild(documentListElement);
+                            })
                         }
-                        folderListObject += '</ul>';
-                        folderListObject += '</li>';
+                        subfolderListElement.appendChild(documentListContainer);
                     })
                 }
-                folderListObject += '</ul>';
-                folderListObject += '</li>';
-                $("#folderlist").append(folderListObject)
+                folderListElement.appendChild(subfolderListContainer);
+                // this syntax is equivalent to `document.getElementById()`
+                $("#folderlist").append(folderListElement);
             })
         },
         error: function (response) {
-            console.log(response);
+            // this function is run if the server responds with an error code
             document.getElementById("error-message").textContent = response.responseText;
             window.location.href = 'index.html';
         }
     });
 
+    // set welcome message
     document.getElementById("welcome-message").textContent = `Welcome, ${sessionStorage.username}`;
 
+    // set click event to every document, to access to its content via modal
     $('body').on('click', 'li.document', function(event){
         let target = $(event.currentTarget);
 
@@ -64,8 +140,6 @@ $(document).ready(function(){
     }, false);
     document.addEventListener("dragstart", function (event) {
         dragged = event.target;
-        console.log(dragged);
-        console.log(dragged.className);
         errorMsg.textContent = `You're moving ${dragged.className} ${dragged.dataset.name}`;
         event.target.style.opacity = .5;
     }, false);
@@ -78,7 +152,7 @@ $(document).ready(function(){
 
     /* events fired on the drop targets */
     document.addEventListener("dragover", function( event ) {
-        // prevent default to allow drop
+        // prevent default (to allow drop)
         event.preventDefault();
     }, false);
 
@@ -107,7 +181,6 @@ $(document).ready(function(){
                 entity_id: parseInt(dragged.dataset.itemid),
                 to: parseInt(event.target.dataset.itemid)
             }
-            console.log(JSON.stringify(dataForm));
             event.target.style.background = "";
             $.ajax({
                 type: "POST",
@@ -123,11 +196,11 @@ $(document).ready(function(){
                 }
             });
         } else if(event.target.className === "subfolder" && dragged.className === "document") {
+            // user has moved a document to a subfolder
             let dataForm = {
                 entity_id: parseInt(dragged.dataset.itemid),
                 to: parseInt(event.target.dataset.itemid)
             }
-            console.log(JSON.stringify(dataForm));
             event.target.style.background = "";
             $.ajax({
                 type: "POST",
@@ -143,6 +216,7 @@ $(document).ready(function(){
                 }
             });
         } else if (event.target.id === "wastebin") {
+            // user has dragged a subfolder OR a document to the wastebin
             event.target.style.background = "";
             let confirmValue = confirm(`Are you sure to delete ${dragged.className} ${dragged.dataset.name}?`);
             if(confirmValue === true) {
